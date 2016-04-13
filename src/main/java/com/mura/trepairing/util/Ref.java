@@ -8,6 +8,7 @@ public class Ref {
     public static final String SERVER_PROXY = "com.mura.trepairing.proxy.ServerProxy";
 
     public static class Values {
+        public static boolean debugText = false;
         public static boolean debugModifier = false;
         public static boolean iguanaSupport = false;
         public static boolean gregtechSupport = false;

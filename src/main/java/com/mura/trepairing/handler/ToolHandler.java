@@ -1,11 +1,13 @@
 package com.mura.trepairing.handler;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.mura.trepairing.util.MuraUtils;
 import com.mura.trepairing.util.Ref;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import tconstruct.library.event.ModifyEvent;
 import tconstruct.library.event.ToolCraftedEvent;
 import tconstruct.library.tools.AbilityHelper;
@@ -20,7 +22,7 @@ public class ToolHandler {
         if(event.tool == null || !(event.tool.getItem() instanceof ToolCore)) return;
         NBTTagCompound tags = event.tool.getTagCompound().getCompoundTag("InfiTool");
         if(!tags.hasKey(Ref.NBTKeys.TINKERS_CONDITION)) {
-            System.out.println("Does not have condition key, adding it.");
+            if(Ref.Values.debugText) System.out.println("Does not have condition key, adding it.");
             MuraUtils.addConditionKey(tags);
         }
         if(tags.getBoolean(Ref.NBTKeys.TINKERS_MANIPULATE)) {
@@ -43,15 +45,17 @@ public class ToolHandler {
     }
 
     public static void manipulateCondition(NBTTagCompound tags, ItemStack stack, EntityPlayer player) {
-        System.out.println("MANIPULATED CONDITION");
+        if(Ref.Values.debugText) System.out.println("MANIPULATING CONDITION");
         Random rand = new Random();
         if(tags.getInteger(Ref.NBTKeys.TINKERS_CONDITION) < 4) {
             if (Ref.Values.iguanaSupport) {
                 if (rand.nextInt(Ref.Values.degradeChanceIguana + tags.getInteger("ToolLevel")) == 1) {
+                    player.addChatMessage(new ChatComponentText(ChatFormatting.GOLD + "Your tools condition has degraded"));
                     tags.setInteger(Ref.NBTKeys.TINKERS_CONDITION, tags.getInteger(Ref.NBTKeys.TINKERS_CONDITION) + 1);
                 }
             } else {
                 if (rand.nextInt(Ref.Values.degradeChanceTinkers) == 1) {
+                    player.addChatMessage(new ChatComponentText(ChatFormatting.GOLD + "Your tools condition has degraded"));
                     tags.setInteger(Ref.NBTKeys.TINKERS_CONDITION, tags.getInteger(Ref.NBTKeys.TINKERS_CONDITION) + 1);
                 }
             }

@@ -29,7 +29,7 @@ public class ModToolpart extends ItemModifier {
         for(ItemStack stack : recipe) {
             if(stack == null) return false;
             if(!tags.hasKey(Ref.NBTKeys.TINKERS_CONDITION)) {
-                System.out.println("Tinker tool does not have condition nbt key, this is an issue.");
+                if(Ref.Values.debugText) System.out.println("Tinker tool does not have condition nbt key, this is an issue.");
                 MuraUtils.addConditionKey(tags);
                 return false;
             }
@@ -50,7 +50,7 @@ public class ModToolpart extends ItemModifier {
                         partName = part.func_77658_a().replaceAll("\\s+","");
                     }
                     if (materialId == tags.getInteger("Head")) {
-                        System.out.println("Part Name: " + partName);
+                        if(Ref.Values.debugText) System.out.println("Part Name: " + partName);
                         return isValidPartType(input.getItem(), partName);
                     }
                 }

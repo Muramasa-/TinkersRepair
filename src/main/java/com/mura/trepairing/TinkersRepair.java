@@ -6,6 +6,7 @@ import com.mura.trepairing.handler.TooltipHandler;
 import com.mura.trepairing.modifiers.ModBreak;
 import com.mura.trepairing.modifiers.ModGTEnergy;
 import com.mura.trepairing.modifiers.ModToolpart;
+import com.mura.trepairing.modifiers.ModUnwork;
 import com.mura.trepairing.proxy.CommonProxy;
 import com.mura.trepairing.util.Ref;
 import cpw.mods.fml.common.Loader;
@@ -30,12 +31,14 @@ public class TinkersRepair {
     public void preInit(FMLPreInitializationEvent event) {
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
+        Ref.Values.debugText = config.getBoolean("DebugText", Configuration.CATEGORY_GENERAL, false, "This enables debugging text printed to the console during certain tool events.");
+        Ref.Values.debugModifier = config.getBoolean("DebugModifiers", Configuration.CATEGORY_GENERAL, false, "This adds two modifiers for testing the condition degradation chance by breaking your tool or making it unworkable. The two items are coal and baked potato.");
         Ref.Values.iguanaSupport = config.getBoolean("IguanaTweaksSupport", Configuration.CATEGORY_GENERAL, false, "Uses your IguanaTweaks's tool level to scale the chance for your tools condition to regrade. High level = less chance");
         Ref.Values.gregtechSupport = config.getBoolean("GregTechSupport", Configuration.CATEGORY_GENERAL, false, "Enables the GregTech5 energy modifier. (WIP)");
         Ref.Values.repairMulti = config.getFloat("RepairMultiplier", Configuration.CATEGORY_GENERAL, 1.0F, 0.0F, 1.0F, "Scales the amount of tool durability returned when it is unworkable (And requires the tool head).");
-        Ref.Values.debugModifier = config.getBoolean("DebugModifiers", Configuration.CATEGORY_GENERAL, false, "This adds two modifiers for testing the condition degradation chance by breaking your tool or making it unworkable. The two items are coal and baked potato.");
+        Ref.Values.degradeChanceIguana = config.getInt("DegradeChanceIguana", Configuration.CATEGORY_GENERAL, 3, 0, 100, "Between 0 and this number is the chance for your tool to degrade if iguana support is enabled.");
+        Ref.Values.degradeChanceTinkers = config.getInt("DegradeChanceTinkers", Configuration.CATEGORY_GENERAL, 5, 0, 100, "Between 0 and this number is the chance for your tool to degrade. This is ignored if iguana support is enabled.");
         config.save();
-
         MinecraftForge.EVENT_BUS.register(new ToolHandler());
         MinecraftForge.EVENT_BUS.register(new TooltipHandler());
         MinecraftForge.EVENT_BUS.register(new GTEnergyHandler());
@@ -51,6 +54,7 @@ public class TinkersRepair {
         ModifyBuilder.registerModifier(new ModToolpart());
         if(Ref.Values.debugModifier) {
             ModifyBuilder.registerModifier(new ModBreak());
+            ModifyBuilder.registerModifier(new ModUnwork());
         }
         if(Loader.isModLoaded("gregtech") && Ref.Values.gregtechSupport) {
             ModifyBuilder.registerModifier(new ModGTEnergy());

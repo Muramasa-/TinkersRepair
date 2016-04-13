@@ -20,7 +20,7 @@ public class GTEnergyHandler {
                 NBTTagCompound tags = stack.getTagCompound().getCompoundTag("InfiTool");
                 if(tags.hasKey(Ref.NBTKeys.TINKERS_HAS_GTENERGY)) {
                     //Is Tinkers Tool With GT Energy Modifier.
-                    System.out.println("Is Tinkers Tool With GT Energy Modifier");
+                    if(Ref.Values.debugText) System.out.println("Is Tinkers Tool With GT Energy Modifier");
 
                 }
             }
