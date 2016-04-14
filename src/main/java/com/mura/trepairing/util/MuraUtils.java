@@ -1,7 +1,9 @@
 package com.mura.trepairing.util;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import tconstruct.library.tools.AbilityHelper;
 
 public class MuraUtils {
     private static String[] keys = new String[]{"", "TGregRepair"};
@@ -9,13 +11,13 @@ public class MuraUtils {
     public static String getConditionString(int condition) {
         String output = "Condition: ";
         switch (condition) {
-            case 0: output = output + ChatFormatting.GREEN + "Excellent";
+            case 0: output = output + ChatFormatting.GREEN + "Newly Forged";
                 break;
             case 1: output = output + ChatFormatting.YELLOW + "Good";
                 break;
             case 2: output = output + ChatFormatting.GOLD + "Okay";
                 break;
-            case 3: output = output + ChatFormatting.RED + "Poor";
+            case 3: output = output + ChatFormatting.RED + "Brittle";
                 break;
             case 4: output = output + ChatFormatting.DARK_RED + "Unworkable";
                 break;
@@ -23,7 +25,21 @@ public class MuraUtils {
         return output;
     }
 
-    public static void addConditionKey(NBTTagCompound tags) {
+    public static void changeDamage(NBTTagCompound tags, ItemStack tool, int damage, int condition) {
+        MuraUtils.checkKeys(tags);
+        tags.setInteger("Damage", damage);
+        if(!(condition == -1))
+            tags.setInteger(Ref.NBTKeys.TINKERS_CONDITION, condition);
+        AbilityHelper.damageTool(tool, 0, null, true);
+    }
+
+    public static void breakTool(NBTTagCompound tags, ItemStack tool, boolean broken) {
+        MuraUtils.checkKeys(tags);
+        tags.setBoolean("Broken", broken);
+        AbilityHelper.damageTool(tool, 0, null, true);
+    }
+
+    public static void checkKeys(NBTTagCompound tags) {
         if(!tags.hasKey(Ref.NBTKeys.TINKERS_CONDITION)) {
             tags.setInteger(Ref.NBTKeys.TINKERS_CONDITION, 0);
         }

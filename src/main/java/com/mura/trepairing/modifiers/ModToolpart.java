@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import tconstruct.items.tools.*;
 import tconstruct.library.modifier.ItemModifier;
-import tconstruct.library.tools.AbilityHelper;
 import tconstruct.library.tools.DynamicToolPart;
 import tconstruct.library.tools.ToolCore;
 import tconstruct.library.util.IToolPart;
@@ -30,7 +29,7 @@ public class ModToolpart extends ItemModifier {
             if(stack == null) return false;
             if(!tags.hasKey(Ref.NBTKeys.TINKERS_CONDITION)) {
                 if(Ref.Values.debugText) System.out.println("Tinker tool does not have condition nbt key, this is an issue.");
-                MuraUtils.addConditionKey(tags);
+                MuraUtils.checkKeys(tags);
                 return false;
             }
             if(tags.getInteger(Ref.NBTKeys.TINKERS_CONDITION) >= 4){
@@ -109,10 +108,8 @@ public class ModToolpart extends ItemModifier {
     public void modify(ItemStack[] itemStacks, ItemStack tool) {
         NBTTagCompound tags = tool.getTagCompound().getCompoundTag("InfiTool");
         int damage = (int) Math.floor(tags.getInteger("TotalDurability") * Ref.Values.repairMulti);
-        tags.setInteger("Damage", tags.getInteger("TotalDurability") - damage);
-        tags.setBoolean("Broken", false);
-        tags.setInteger(Ref.NBTKeys.TINKERS_CONDITION, 0);
-        AbilityHelper.damageTool(tool, 0, null, true);
+        MuraUtils.changeDamage(tags, tool, tags.getInteger("TotalDurability") - damage, 0);
+        MuraUtils.breakTool(tags, tool, false);
         tags.setBoolean(key, true);
     }
 }

@@ -1,5 +1,6 @@
 package com.mura.trepairing.modifiers;
 
+import com.mura.trepairing.util.MuraUtils;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,9 +40,8 @@ public class ModBreak extends ItemModifier {
     @Override
     public void modify(ItemStack[] itemStacks, ItemStack tool) {
         NBTTagCompound tags = tool.getTagCompound().getCompoundTag("InfiTool");
-        tags.setInteger("Damage", tags.getInteger("BaseDurability"));
-        tags.setBoolean("Broken", true);
-        AbilityHelper.damageTool(tool, 0, null, true);
+        MuraUtils.changeDamage(tags, tool, tags.getInteger("BaseDurability"), -1);
+        MuraUtils.breakTool(tags, tool, true);
         tags.setBoolean(key, true);
     }
 }
