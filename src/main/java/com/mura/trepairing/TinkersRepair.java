@@ -59,8 +59,9 @@ public class TinkersRepair {
         if(Loader.isModLoaded("gregtech") && Ref.Values.gregtechSupport) {
             ModifyBuilder.registerModifier(new ModGTEnergy());
         }
-        if(Loader.isModLoaded("IguanaTweaksTConstruct") && Ref.Values.iguanaSupport) {
-            Ref.Values.iguanaSupport = true;
+        if(!Loader.isModLoaded("IguanaTweaksTConstruct") && Ref.Values.iguanaSupport) {
+            Ref.Values.iguanaSupport = false
+            ;
         }
     }
 }

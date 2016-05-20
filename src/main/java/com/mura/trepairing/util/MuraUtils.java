@@ -1,8 +1,8 @@
 package com.mura.trepairing.util;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import tconstruct.library.tools.AbilityHelper;
 
 public class MuraUtils {
@@ -11,15 +11,15 @@ public class MuraUtils {
     public static String getConditionString(int condition) {
         String output = "Condition: ";
         switch (condition) {
-            case 0: output = output + ChatFormatting.GREEN + "Newly Forged";
+            case 0: output = output + EnumChatFormatting.GREEN + "Newly Forged";
                 break;
-            case 1: output = output + ChatFormatting.YELLOW + "Good";
+            case 1: output = output + EnumChatFormatting.YELLOW + "Good";
                 break;
-            case 2: output = output + ChatFormatting.GOLD + "Okay";
+            case 2: output = output + EnumChatFormatting.GOLD + "Okay";
                 break;
-            case 3: output = output + ChatFormatting.RED + "Brittle";
+            case 3: output = output + EnumChatFormatting.RED + "Brittle";
                 break;
-            case 4: output = output + ChatFormatting.DARK_RED + "Unworkable";
+            case 4: output = output + EnumChatFormatting.DARK_RED + "Unworkable";
                 break;
         }
         return output;

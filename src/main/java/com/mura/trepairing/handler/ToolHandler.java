@@ -18,7 +18,7 @@ import java.util.Random;
 public class ToolHandler {
     @SubscribeEvent
     public void onToolCraft(ToolCraftedEvent event) {
-        if(event.player.worldObj.isRemote) return;
+        //if(event.player.worldObj.isRemote) return;
         if(event.tool == null || !(event.tool.getItem() instanceof ToolCore)) return;
         NBTTagCompound tags = event.tool.getTagCompound().getCompoundTag("InfiTool");
         if(!tags.hasKey(Ref.NBTKeys.TINKERS_CONDITION)) {
@@ -50,12 +50,12 @@ public class ToolHandler {
         if(tags.getInteger(Ref.NBTKeys.TINKERS_CONDITION) < 4) {
             if (Ref.Values.iguanaSupport) {
                 if (rand.nextInt(Ref.Values.degradeChanceIguana + tags.getInteger("ToolLevel")) == 1) {
-                    player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Your tools condition has degraded"));
+                    player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Your tool's condition has degraded"));
                     tags.setInteger(Ref.NBTKeys.TINKERS_CONDITION, tags.getInteger(Ref.NBTKeys.TINKERS_CONDITION) + 1);
                 }
             } else {
                 if (rand.nextInt(Ref.Values.degradeChanceTinkers) == 1) {
-                    player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Your tools condition has degraded"));
+                    player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Your tool's condition has degraded"));
                     tags.setInteger(Ref.NBTKeys.TINKERS_CONDITION, tags.getInteger(Ref.NBTKeys.TINKERS_CONDITION) + 1);
                 }
             }

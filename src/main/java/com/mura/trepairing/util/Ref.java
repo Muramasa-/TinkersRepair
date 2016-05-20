@@ -3,7 +3,7 @@ package com.mura.trepairing.util;
 public class Ref {
     public static final String MOD_ID = "TinkersRepair";
     public static final String MOD_NAME = "TinkersRepair";
-    public static final String MOD_VERSION = "1.7.10-0.6";
+    public static final String MOD_VERSION = "1.7.10-0.5";
     public static final String CLIENT_PROXY = "com.mura.trepairing.proxy.ClientProxy";
     public static final String SERVER_PROXY = "com.mura.trepairing.proxy.ServerProxy";
 
